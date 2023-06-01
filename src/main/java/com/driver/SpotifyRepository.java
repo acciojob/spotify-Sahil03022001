@@ -62,6 +62,7 @@ public class SpotifyRepository {
         Artist artist = isArtistPresent.orElseGet(() -> createArtist(artistName));
         Album album = new Album();
         album.setTitle(title);
+        albums.add(album);
 
         if(!artistAlbumMap.containsKey(artist))
             artistAlbumMap.put(artist, new ArrayList<>());
