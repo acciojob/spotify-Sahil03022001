@@ -83,6 +83,7 @@ public class SpotifyRepository {
         Song song = new Song();
         song.setTitle(title);
         song.setLength(length);
+        song.setLikes(0);
         songs.add(song);
         Album album = isAlbumPresent.get();
 
@@ -138,6 +139,7 @@ public class SpotifyRepository {
         User user = isUserPresent.get();
         Playlist playlist = new Playlist();
         playlist.setTitle(title);
+        playlists.add(playlist);
 
         List<Song> songs1 = songs
                 .stream()
@@ -153,8 +155,8 @@ public class SpotifyRepository {
 
         if(!playlistListenerMap.containsKey(playlist))
             playlistListenerMap.put(playlist, new ArrayList<>());
-
         playlistListenerMap.get(playlist).add(user);
+
         return playlist;
     }
 
@@ -223,17 +225,16 @@ public class SpotifyRepository {
         if(!isLikedUserPresent) {
             song.setLikes(song.getLikes() + 1);
             userList.add(user);
-        }
-
-        outer:
-        for(Artist artist : artistAlbumMap.keySet()) {
-            List<Album> albumList = artistAlbumMap.get(artist);
-            for(Album album : albumList) {
-                List<Song> songList = albumSongMap.get(album);
-                for(Song song1 : songList) {
-                    if(song1 == song) {
-                        artist.setLikes(artist.getLikes() + 1);
-                        break outer;
+            outer:
+            for(Artist artist : artistAlbumMap.keySet()) {
+                List<Album> albumList = artistAlbumMap.get(artist);
+                for(Album album : albumList) {
+                    List<Song> songList = albumSongMap.get(album);
+                    for(Song song1 : songList) {
+                        if(song1 == song) {
+                            artist.setLikes(artist.getLikes() + 1);
+                            break outer;
+                        }
                     }
                 }
             }
