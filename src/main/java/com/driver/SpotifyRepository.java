@@ -180,6 +180,9 @@ public class SpotifyRepository {
             throw new Exception("Playlist does not exist");
 
         Playlist playlist = isPlaylistPresent.get();
+        if(!playlistListenerMap.containsKey(playlist))
+            playlistListenerMap.put(playlist, new ArrayList<>());
+
         List<User> userList = playlistListenerMap.get(playlist);
 
         boolean isListenerUserPresent = userList
